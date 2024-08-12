@@ -14,7 +14,7 @@ function arcaconPlus(mainArea: Element): HTMLInputElement {
     const getContentItems = (): NodeListOf<HTMLElement> => mainArea.querySelectorAll(":scope > .wrap > .content > .package-wrap:not(:first-child)")!;
     const getSideBarItems = (): NodeListOf<HTMLElement> => mainArea.querySelectorAll(":scope > .wrap > .sidebar > .package-item:not(:first-child)")!;
     el.oninput = () => {
-        const query: string = trimAll(el.value);
+        const query: string = trimAndLowerCase(el.value);
         if (query.length > 0) {
             getContentRecent().style.display = "none";
             getSideBarRecent().style.display = "none";
@@ -23,14 +23,14 @@ function arcaconPlus(mainArea: Element): HTMLInputElement {
             getSideBarRecent().style.display = "";
         }
         getContentItems().forEach((item) => {
-            if (trimAll(item.querySelector(".package-title")!.textContent!).includes(query)) {
+            if (trimAndLowerCase(item.querySelector(".package-title")!.textContent!).includes(query)) {
                 item.style.display = "";
             } else {
                 item.style.display = "none";
             }
         });
         getSideBarItems().forEach((item) => {
-            if (trimAll(item.getAttribute("data-package-name")!).includes(query)) {
+            if (trimAndLowerCase(item.getAttribute("data-package-name")!).includes(query)) {
                 item.style.display = "";
             } else {
                 item.style.display = "none";
@@ -59,6 +59,6 @@ function arcaconPlus(mainArea: Element): HTMLInputElement {
     return el;
 }
 
-function trimAll(str: string): string {
-    return str.replace(/\s+/g, "");
+function trimAndLowerCase(str: string): string {
+    return str.replace(/\s+/g, "").toLowerCase();
 }
